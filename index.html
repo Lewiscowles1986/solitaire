@@ -9,51 +9,54 @@
   <script src="game.js" defer></script>
   <title>Solitaire</title>
 </head>
-<body>
-  <div class="full-screen-container hidden">
-    <div class="prompt">
-      <button class="btn-close">X</button>
-      <div class="content-about hidden">
-        <p>Game made by <a href="https://github.com/HectorVilas" target="_blank">HectorVilas</a>
-          in HTML, CSS and JavaScript</p>
-        <p><a href="https://pixabay.com/vectors/card-deck-deck-cards-playing-cards-161536/" target="_blank">
-          Deck</a> images by OpenClipart-Vectors from Pixabay</p>
-        <p><a href="https://pixabay.com/vectors/atlasnye-deck-playing-cards-game-884206/" target="_blank">
-          Alternative russian card deck</a> images by WikimediaImages from Pixabay</p>
-        <p><a href="https://hipwallpaper.com/view/NWa1EU" target="_blank">Poker Table Top Background</a>
-          from hipwallpaper.com</p>
-        <p><a href="https://pixabay.com/illustrations/joker-playing-cards-fun-play-throw-6230505/" target="_blank">
-          Joker</a> image in menu by TAMGRA from Pixabay</p>
-        </div>
-        <div class="content-win hidden">
-          <p>YOU</p><p>WIN</p>
-        </div>
+<body class="debug">
+  <div style="border: 1px solid #ccc; padding-left: 5em;" id="console"><button id="input-type">unknown</button><button id="pointer_x">x: 0</button><button id="pointer_y">y: 0</button></div>
+  <div class="wrapper">
+    <div class="full-screen-container hidden">
+      <div class="prompt">
+        <button class="btn-close">X</button>
+        <div class="content-about hidden">
+          <p>Game made by <a href="https://github.com/HectorVilas" target="_blank">HectorVilas</a>
+            in HTML, CSS and JavaScript</p>
+          <p><a href="https://pixabay.com/vectors/card-deck-deck-cards-playing-cards-161536/" target="_blank">
+            Deck</a> images by OpenClipart-Vectors from Pixabay</p>
+          <p><a href="https://pixabay.com/vectors/atlasnye-deck-playing-cards-game-884206/" target="_blank">
+            Alternative russian card deck</a> images by WikimediaImages from Pixabay</p>
+          <p><a href="https://hipwallpaper.com/view/NWa1EU" target="_blank">Poker Table Top Background</a>
+            from hipwallpaper.com</p>
+          <p><a href="https://pixabay.com/illustrations/joker-playing-cards-fun-play-throw-6230505/" target="_blank">
+            Joker</a> image in menu by TAMGRA from Pixabay</p>
+          </div>
+          <div class="content-win hidden">
+            <p>YOU</p><p>WIN</p>
+          </div>
+      </div>
     </div>
-  </div>
-  <button class="btn-gear"><img src="./media/images/hud/gear.svg" target="_blank"></button>
-  <div class="menu">
-    <button class="btn-restart"><img src="./media/images/hud/restart.svg"></button>
-    <button class="btn-design"><img src="./media/images/hud/design.svg"></button>
-    <button class="btn-about">¿ ?</button>
-  </div>
-  <div class="moving-cards hidden"></div>
-  <div class="play-area">
-    <div id="stock"></div>
-    <div id="waste"></div>
-    <div id="info-space"></div>
-    <div class="foundation" id="fnd-0"></div>
-    <div class="foundation" id="fnd-1"></div>
-    <div class="foundation" id="fnd-2"></div>
-    <div class="foundation" id="fnd-3"></div>
+    <button class="btn-gear"><img src="./media/images/hud/gear.svg" target="_blank"></button>
+    <div class="menu">
+      <button class="btn-restart"><img src="./media/images/hud/restart.svg"></button>
+      <button class="btn-design"><img src="./media/images/hud/design.svg"></button>
+      <button class="btn-about">¿ ?</button>
+    </div>
+    <div class="moving-cards hidden"></div>
+    <div class="play-area">
+      <div id="stock"></div>
+      <div id="waste"></div>
+      <div id="info-space"></div>
+      <div class="foundation" id="fnd-0"></div>
+      <div class="foundation" id="fnd-1"></div>
+      <div class="foundation" id="fnd-2"></div>
+      <div class="foundation" id="fnd-3"></div>
 
-    <div class="tableau" id="tab-0"></div>
-    <div class="tableau" id="tab-1"></div>
-    <div class="tableau" id="tab-2"></div>
-    <div class="tableau" id="tab-3"></div>
-    <div class="tableau" id="tab-4"></div>
-    <div class="tableau" id="tab-5"></div>
-    <div class="tableau" id="tab-6"></div>
+      <div class="tableau" id="tab-0"></div>
+      <div class="tableau" id="tab-1"></div>
+      <div class="tableau" id="tab-2"></div>
+      <div class="tableau" id="tab-3"></div>
+      <div class="tableau" id="tab-4"></div>
+      <div class="tableau" id="tab-5"></div>
+      <div class="tableau" id="tab-6"></div>
+    </div>
+    <div id="preload" class="hidden"></div>
   </div>
-  <div id="preload" class="hidden"></div>
 </body>
 </html>

@@ -41,6 +41,10 @@ const $btnClose = document.querySelector(".btn-close")
 const $contentAbout = document.querySelector(".content-about")
 const $contentWin = document.querySelector(".content-win")
 
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+const pointer_hold_event = (isTouchDevice ? "touchstart": "mousedown");
+const pointer_release_event = (isTouchDevice ? "touchend": "mouseup");
+document.getElementById("input-type").innerHTML = `${isTouchDevice ? "touch device" : "computer"}`;
 
 $foundations.forEach(found => foundIDs.push(found.id))
 $tableaus.forEach(tab => tabIDs.push(tab.id))
@@ -147,7 +151,7 @@ function clickAction(action, place, pile, space){
   let cardValue = {place, pile, space, pileName, card}
 
   //place card info in "from" or "to" depending mouse action
-  if(action === "mousedown"){
+  if(action === pointer_hold_event){
     to = undefined // removing values to helper variables
     from = cardValue
     if(from.place === "stock"){
@@ -160,10 +164,12 @@ function clickAction(action, place, pile, space){
       lastInPile(table.tableau[from.pile]).isFlipped = true
       redrawCards()
     }
-  } else if(action === "mouseup"){
+  } else if(action === pointer_release_event){
     to = cardValue
     
-    if(from !== undefined || to !== undefined) dragCard()
+    if(from !== undefined || to !== undefined) {
+      dragCard()
+    }
 
     from = undefined // removing values to helper variables
   }
@@ -397,19 +403,19 @@ function redrawCards(){
 //add listeners to cards
 function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("mousedown", (e) => {
+    card.addEventListener(pointer_hold_event, (e) => {
       $movingCards.style.marginLeft = `-${winX-card.x}px`
       $movingCards.style.marginTop = `-${winY-card.y}px`
       if(!gameOver){
-        clickAction("mousedown", card.parentNode.parentNode.id,
+        clickAction(pointer_hold_event, card.parentNode.parentNode.id,
         card.getAttribute("data-pile"),card.getAttribute("data-space"))
         doubleClick()
       }
       e.preventDefault()
     })
 
-    card.addEventListener("mouseup", () => {
-      clickAction("mouseup", card.parentNode.parentNode.id,
+    card.addEventListener(pointer_release_event, () => {
+      clickAction(pointer_release_event, card.parentNode.parentNode.id,
       card.getAttribute("data-pile"),card.getAttribute("data-space"))
     })
   })
@@ -519,7 +525,7 @@ function newGame(){
 //for moving cards
 function draggedCardDom(dragging){
   if(gameOver) return
-
+  
   if(dragging){
     //move the dragged card to the corner of the cursor
     setTimeout(() => {
@@ -726,26 +732,39 @@ $btnAbout.addEventListener("click", promptAction)
 $btnClose.addEventListener("click", promptAction)
 
 //mouse events on window
-window.onmousedown = () => {
+const pointer_hold = () => {
   isMouseDown = true
   checkDeck()
-}
+};
 
-window.onmouseup = () => {
+const pointer_release = () => {
   isMouseDown = false
   draggedCardDom(false)
-}
+};
 
-window.onmousemove = (e) => {
+const cursorMove = (e) => {
   if(isMouseDown){
     isMouseDown = false
     draggedCardDom(true)
   }
   //storing cursor coordinates on move
-  winX = e.x
-  winY = e.y
+  winX = e.x ?? e.touches[0].clientX
+  winY = e.y ?? e.touches[0].clientY
   $movingCards.style.left = `${winX}px`
   $movingCards.style.top = `${winY}px`
+  document.getElementById("pointer_x").innerHTML = winX
+  document.getElementById("pointer_y").innerHTML = winY
+};
+
+/* Touch vs Mouse Shim */
+if ( isTouchDevice ) {
+  window.ontouchstart = pointer_hold;
+  window.ontouchend = pointer_release;
+  window.ontouchmove = cursorMove;
+} else {
+  window.onmousedown = pointer_hold;
+  window.onmouseup = pointer_release;
+  window.onmousemove = cursorMove;
 }
 
 //start a new game on page load
